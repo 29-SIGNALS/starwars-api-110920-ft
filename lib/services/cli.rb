@@ -2,7 +2,8 @@ class Cli
 
     def start
         puts "Welcome to the amazing starwars API!"
-
+        puts "loading..."
+        Api.load_data # all information loaded and models created at this point.
         main_menu_options
     end
 
@@ -14,10 +15,12 @@ class Cli
     end
 
     def main_menu
-        input = gets.chomp
+        input = get_input
 
         if input == "1"
-            puts "Listing Characters"
+            list_characters
+            puts "select character for more information"
+            main_menu_options
         elsif input == "2"
             puts "Listing Planets"
         elsif input == "exit"
@@ -31,5 +34,16 @@ class Cli
 
     def invalid_choice
         puts "Invalid Choice. Please Try Again!"
+    end
+
+    def get_input
+        print "Enter Choice: "
+        gets.chomp
+    end
+
+    def list_characters
+        Character.all.each.with_index(1) do |character, index|
+            puts "#{index}. #{character.name}"
+        end
     end
 end
